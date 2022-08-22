@@ -7,7 +7,7 @@ import './App.css';
 function App() {
   const updateMyPresence = useUpdateMyPresence();
   const others = useOthers();
-  const othersCursors = others.map((user) => user.presence?.cursor);
+  // const othersCursors = others.map((user) => user.presence?.cursor);
 
   const [currentPlayerX, setCurrentPlayerX] = useState(false)
   const [board, setBoard] = useState(
@@ -46,13 +46,16 @@ function App() {
       <div
         style={{ width: "100vw", height: "100vh" }}
         onPointerMove={(e) =>
-          updateMyPresence({ cursor: { x: e.clientX, y: e.clientY } })
+          updateMyPresence({ x: e.clientX, y: e.clientY })
         }
       />
-      {othersCursors.map((cursor) => (
-        console.log('cursor ->', cursor),
-        <Cursor x={cursor.x} y={cursor.y} />
-      ))}
+      {others.map((user) => {
+          if (user.presence?.cursor == null) {
+            console.log('user is null dude')
+            return null;
+          }
+          return <Cursor key={user.connectionId} cursor={user.presence.cursor} />;
+        })}
     </div>
   );
 }

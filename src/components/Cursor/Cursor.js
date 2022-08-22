@@ -1,8 +1,8 @@
-function Cursor({x, y}) {
+function Cursor({cursor}) {
 
   return (
     <div>
-      cursor posX {x} posY {y}
+      cursor posX {cursor.x} posY {cursor.y}
     </div>
   )
 }

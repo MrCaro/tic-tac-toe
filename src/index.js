@@ -7,7 +7,10 @@ import { RoomProvider } from "../src/components/configs/liveblocks.config.js";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RoomProvider id="my-room-id">
+    <RoomProvider 
+      id="tic-tac-toe-room" 
+      // initialPresence={{ cursor: { x: 0, y: 0 } }}
+    >
       <App />
     </RoomProvider>
   </React.StrictMode>
