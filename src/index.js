@@ -9,7 +9,7 @@ root.render(
   <React.StrictMode>
     <RoomProvider 
       id="tic-tac-toe-room" 
-      // initialPresence={{ cursor: { x: 0, y: 0 } }}
+      initialPresence={{ cursor: { x: 0, y: 0 } }}
     >
       <App />
     </RoomProvider>

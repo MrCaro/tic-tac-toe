@@ -7,15 +7,15 @@ import './App.css';
 function App() {
   const updateMyPresence = useUpdateMyPresence();
   const others = useOthers();
-  // const othersCursors = others.map((user) => user.presence?.cursor);
 
   const [currentPlayerX, setCurrentPlayerX] = useState(false)
   const [board, setBoard] = useState(
     Array.from({ length: 9 }, (x) => ({ value: null }))
   )
   
-  const handleClickCell = (index) => {
+  const handleClickCell = (e, index) => {
     const currentPlayer = currentPlayerX ? '❌' : '⭕️'
+    updateMyPresence({ cursor: { x: e.clientX, y: e.clientY } })
 
     if(!board[index].value) {
       setBoard(
@@ -36,26 +36,20 @@ function App() {
           <Cell 
             {...cell}
             key={i} 
-            onClick={() => handleClickCell(i)} 
+            onClick={(e) => handleClickCell(e, i)} 
           />
         )
         )}
       </div>
       {/* liveblocks */}
       <div>There are {others.count} other users with you in the room.</div>
-      <div
-        style={{ width: "100vw", height: "100vh" }}
-        onPointerMove={(e) =>
-          updateMyPresence({ x: e.clientX, y: e.clientY })
-        }
-      />
       {others.map((user) => {
           if (user.presence?.cursor == null) {
             console.log('user is null dude')
             return null;
           }
           return <Cursor key={user.connectionId} cursor={user.presence.cursor} />;
-        })}
+      })}
     </div>
   );
 }
