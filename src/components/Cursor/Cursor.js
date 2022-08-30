@@ -8,6 +8,7 @@ function Cursor({color, x, y}) {
         top: 0,
         transition: "transform 120ms linear",
         transform: `translateX(${x}px) translateY(${y}px)`,
+        zIndex: "2"
       }}
       width="24"
       height="36"

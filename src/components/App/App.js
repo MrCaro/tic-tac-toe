@@ -64,6 +64,24 @@ function App() {
         })
       }
     >
+      {        
+          others.map(({ connectionId, presence }) => {
+            if (presence == null || presence.cursor == null) {
+              return null;
+            }
+
+            return (
+              <Cursor
+                // connectionId is an integer that is incremented at every new connections
+                key={`cursor-${connectionId}`}
+                // Assigning a color with a modulo makes sure that a specific user has the same colors on every clients
+                color={COLORS[connectionId % COLORS.length]}
+                x={presence.cursor.x}
+                y={presence.cursor.y}
+              />
+            );
+          })
+        }
       <div className="game-bg"></div>
       <div className="game-wrapper">
         <div className="game-info">
@@ -106,24 +124,6 @@ function App() {
             })
           }
         </div>
-        {        
-          others.map(({ connectionId, presence }) => {
-            if (presence == null || presence.cursor == null) {
-              return null;
-            }
-
-            return (
-              <Cursor
-                // connectionId is an integer that is incremented at every new connections
-                key={`cursor-${connectionId}`}
-                // Assigning a color with a modulo makes sure that a specific user has the same colors on every clients
-                color={COLORS[connectionId % COLORS.length]}
-                x={presence.cursor.x}
-                y={presence.cursor.y}
-              />
-            );
-          })
-        }
       </div>
     </div>
   );

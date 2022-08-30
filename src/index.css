@@ -3,7 +3,7 @@ body {
 }
 
 .App {
-	position: relative;
+	/* position: relative; */
 	height: 100vh;
 	display: flex;
 	flex-flow: column;
