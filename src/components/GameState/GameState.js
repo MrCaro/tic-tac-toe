@@ -27,7 +27,7 @@ function GameState({board}) {
     }
   }
   
-  return isGameOver ? 'Game Over' : 'Playing'
+  return isGameOver ? <p>Game Over</p> : <p>Playing</p>
 }
 
 export default GameState

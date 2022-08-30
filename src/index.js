@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from '../src/components/App';
+import { LiveList } from '@liveblocks/client';
 import { RoomProvider } from "../src/components/configs/liveblocks.config.js";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
