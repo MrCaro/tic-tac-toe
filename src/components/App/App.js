@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useOthers, useMyPresence } from "../configs/liveblocks.config";
+import { useOthers, useMyPresence, useList } from "../configs/liveblocks.config";
 import Cursor from '../Cursor'
 import GameState from '../GameState'
 import './App.css';
@@ -17,13 +17,21 @@ const COLORS = [
 
 function App() {
   //states from liveblocks
-  const [{cursor, setCell}, updateMyPresence] = useMyPresence()
+  const [{cursor}, updateMyPresence] = useMyPresence()
+  const [setCell, setMyPresence] = useMyPresence()
   const others = useOthers();
   //states from game
   const [currentPlayerX, setCurrentPlayerX] = useState(false)
   const [board, setBoard] = useState(
     Array.from({ length: 9 }, (x) => ({ value: null }))
   )
+  const liveBoard = useList("cells")
+
+  if(!liveBoard) {
+    return(
+      <p>loading...</p>
+    )
+  }
 
   const handleClickCell = (e, index) => {
     const currentPlayer = currentPlayerX ? '❌' : '⭕️'
@@ -34,15 +42,14 @@ function App() {
           i === index ? { value: currentPlayer } : cell
         ))
       )
-      updateMyPresence({
-        setCell: 
-          {
-            index,
-            value: currentPlayer
-          }, 
-      })
-      setCurrentPlayerX(!currentPlayerX)
       
+      setMyPresence(
+        liveBoard.map((x, i) => (
+          i === index ? x.set('value', 'foo') : x
+        ))
+      )
+      // console.log(liveBoard)
+      setCurrentPlayerX(!currentPlayerX)
     }
   }
 
@@ -122,6 +129,13 @@ function App() {
 
               return <p key={connectionId}>remote user played {presence.setCell.value}</p>
             })
+          }
+        </div>
+        <div>
+          {
+            liveBoard.map((x, i) => (
+            <p key={i}>{ x.get("value") }</p>
+            ))
           }
         </div>
       </div>

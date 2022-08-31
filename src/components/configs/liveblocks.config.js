@@ -5,4 +5,4 @@ const client = createClient({
   publicApiKey: process.env.REACT_APP_LIVEBLOCKS_SECRET_KEY,
 });
 
-export const { RoomProvider, useOthers, useMyPresence } = createRoomContext(client);
+export const { RoomProvider, useOthers, useMyPresence, useList } = createRoomContext(client);
