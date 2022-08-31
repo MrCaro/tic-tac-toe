@@ -42,13 +42,9 @@ function App() {
           i === index ? { value: currentPlayer } : cell
         ))
       )
-      
-      setMyPresence(
-        liveBoard.map((x, i) => (
-          i === index ? x.set('value', 'foo') : x
-        ))
-      )
-      // console.log(liveBoard)
+      liveBoard.map((x, i) => (
+        i === index ? x.set('value', currentPlayer) : x
+      ))
       setCurrentPlayerX(!currentPlayerX)
     }
   }
@@ -67,7 +63,10 @@ function App() {
       }}
       onPointerLeave={() =>
         updateMyPresence({
-          cursor: null,
+          cursor: {
+            x: 50,
+            y: 50,
+          },
         })
       }
     >
