@@ -12,9 +12,12 @@ root.render(
       id="tic-tac-toe-room" 
       initialPresence={{ 
         cursor: null,
-        selectedCell: null
+        selectedCell: null,
       }}
       initialStorage={{
+        playerX: new LiveObject ({
+          value: false
+        }),
         cells: new LiveList([
           new LiveObject({ value: null }),
           new LiveObject({ value: null }),

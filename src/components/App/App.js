@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useOthers, useMyPresence, useList } from "../configs/liveblocks.config";
+import { useOthers, useMyPresence, useList, useObject } from "../configs/liveblocks.config";
 import Cursor from '../Cursor'
 import GameState from '../GameState'
 import './App.css';
@@ -19,6 +19,7 @@ function App() {
   //states from liveblocks
   const [{cursor}, updateMyPresence] = useMyPresence()
   const [setCell, setMyPresence] = useMyPresence()
+  const [{isCurrentPlayerX}, updateMyPresenceX] = useMyPresence()
   const others = useOthers();
   //states from game
   const [currentPlayerX, setCurrentPlayerX] = useState(false)
@@ -28,6 +29,7 @@ function App() {
   //   Array.from({ length: 9 }, (x) => ({ value: null }))
   // )
   const liveBoard = useList("cells")
+  const playerX = useObject("playerX")
 
   if(!liveBoard) {
     return(
@@ -36,15 +38,15 @@ function App() {
   }
 
   const handleClickCell = (e, index) => {
-    const currentPlayer = currentPlayerX ? '❌' : '⭕️'
-
-    let arr = liveBoard.toArray()
+    // const currentPlayer = currentPlayerX ? '❌' : '⭕️'
+    const currentPlayer = playerX.get("value") ? '❌' : '⭕️'
 
     // if(!arr[index].get("value")) {
         liveBoard.map((cell, i) => (
-          i === index ? cell.set('value', currentPlayer) : cell
+          i === index ? cell.set("value", currentPlayer) : cell
         ))
-      setCurrentPlayerX(!currentPlayerX)
+      // setCurrentPlayerX(!currentPlayerX)
+      playerX.set('value', !playerX.get("value"))
     // }
   }
 
