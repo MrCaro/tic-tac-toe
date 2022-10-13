@@ -16,15 +16,15 @@ root.render(
       }}
       initialStorage={{
         cells: new LiveList([
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
-          new LiveObject({ value: 'empty' }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
+          new LiveObject({ value: null }),
         ]),
       }}
     >

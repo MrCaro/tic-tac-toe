@@ -1,4 +1,4 @@
-function GameState({board}) {
+function GameState({board, setGameOver}) {
   let isGameOver = false
   let lines = [
     //horizontal
@@ -14,20 +14,23 @@ function GameState({board}) {
     [2, 4, 6]
   ]
 
+  let arr = board.toArray()
+
   for(let i = 0; i < lines.length; i++) {
     const [cell1, cell2, cell3] = lines[i]
 
     if(
-      board[cell1].value &&
-      board[cell1].value === board[cell2].value &&
-      board[cell2].value === board[cell3].value
+      arr[cell1].get("value") &&
+      arr[cell1].get("value") === arr[cell2].get("value") &&
+      arr[cell2].get("value") === arr[cell3].get("value")
     ) {
       isGameOver = true
+      setGameOver(isGameOver)
       break
     }
   }
   
-  return isGameOver ? <p>Game Over</p> : <p>Playing</p>
+  return isGameOver ? <p>Game Over</p> : <p>Playing</p> 
 }
 
 export default GameState

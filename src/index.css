@@ -82,3 +82,7 @@ body {
 .board-cell--inactive:hover {
 	background-color: rgba(73, 255, 97, 0.445);
 }
+
+.board-wrapper--disabled {
+	pointer-events: none;
+}

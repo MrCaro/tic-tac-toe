@@ -22,29 +22,28 @@ function App() {
   const others = useOthers();
   //states from game
   const [currentPlayerX, setCurrentPlayerX] = useState(false)
-  const [board, setBoard] = useState(
-    Array.from({ length: 9 }, (x) => ({ value: null }))
-  )
+  const [isGameOver, setGameOver] = useState(false)
+  // old board array
+  // const [board, setBoard] = useState(
+  //   Array.from({ length: 9 }, (x) => ({ value: null }))
+  // )
   const liveBoard = useList("cells")
 
   if(!liveBoard) {
     return(
-      <p>loading...</p>
+      <p>loading game...</p>
     )
   }
 
   const handleClickCell = (e, index) => {
     const currentPlayer = currentPlayerX ? '❌' : '⭕️'
 
-    if(!board[index].value) {
-      setBoard(
-        board.map((cell, i) => (
-          i === index ? { value: currentPlayer } : cell
+    let arr = liveBoard.toArray()
+
+    if(!arr[index].get("value")) {
+        liveBoard.map((cell, i) => (
+          i === index ? cell.set('value', currentPlayer) : cell
         ))
-      )
-      liveBoard.map((x, i) => (
-        i === index ? x.set('value', currentPlayer) : x
-      ))
       setCurrentPlayerX(!currentPlayerX)
     }
   }
@@ -89,32 +88,33 @@ function App() {
           })
         }
       <div className="game-bg"></div>
-      <div className="game-wrapper">
-        <div className="game-info">
-          <GameState board={board} />
-          <h1>Let's play Tic Tac Toe</h1>
-          <p>
-            { 
-              others.count >= 1 
-                ? `players: ${others.count}` 
-                : 'you are the only player connected'
-            }
-          </p>
-          <p className="game--info-cursor">
-            {
-              cursor
-                ? `${cursor.x} × ${cursor.y}`
-                : "Move your cursor to share your location with other users in the app"
-            }
-          </p>
-        </div>
+        <div className="game-wrapper">
+          <div className="game-info">
+            <GameState board={liveBoard} setGameOver={setGameOver} /> 
+            <h1>Tic Tac Toe</h1>
+            <p>
+              { 
+                others.count >= 1 
+                  ? `players: ${others.count}` 
+                  : 'you are the only player connected'
+              }
+            </p>
+            <p className="game--info-cursor">
+              {
+                cursor
+                  ? `${cursor.x} × ${cursor.y}`
+                  : "Move your cursor to share your location with other users in the app"
+              }
+            </p>
+          </div>
         <div>
-        <div className="board-wrapper">
+        <div className={`board-wrapper ${isGameOver ? 'board-wrapper--disabled' : ''}`}>
           {
-            board.map((cell, i) => (
+            liveBoard.map((cell, i) => (
               <Cell 
                 {...cell}
-                key={i} 
+                key={i}
+                value={cell.get("value")}
                 onClick={(e) => handleClickCell(e, i)} 
               />
             ))
@@ -128,13 +128,6 @@ function App() {
 
               return <p key={connectionId}>remote user played {presence.setCell.value}</p>
             })
-          }
-        </div>
-        <div>
-          {
-            liveBoard.map((x, i) => (
-            <p key={i}>{ x.get("value") }</p>
-            ))
           }
         </div>
       </div>
