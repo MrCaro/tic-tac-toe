@@ -40,12 +40,12 @@ function App() {
 
     let arr = liveBoard.toArray()
 
-    if(!arr[index].get("value")) {
+    // if(!arr[index].get("value")) {
         liveBoard.map((cell, i) => (
           i === index ? cell.set('value', currentPlayer) : cell
         ))
       setCurrentPlayerX(!currentPlayerX)
-    }
+    // }
   }
 
   return (
