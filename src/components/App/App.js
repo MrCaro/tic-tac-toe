@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useOthers, useMyPresence, useList, useObject } from "../configs/liveblocks.config";
+import axios from 'axios'
+import './App.css';
 import Cursor from '../Cursor'
 import GameState from '../GameState'
-import './App.css';
 
 const COLORS = [
   "#E57373",
@@ -37,8 +38,13 @@ function App() {
     )
   }
 
+  // deletes liveblocks room data
+  const deleteRoomStorage = () => {
+    axios.delete(`https://api.liveblocks.io/v2/rooms/${process.env.REACT_APP_LIVEBLOCKS_ROOM_ID}/storage`)
+    console.log('clicked!')
+  }
+
   const handleClickCell = (e, index) => {
-    // const currentPlayer = currentPlayerX ? '❌' : '⭕️'
     const currentPlayer = playerX.get("value") ? '❌' : '⭕️'
 
     // if(!arr[index].get("value")) {
@@ -108,6 +114,9 @@ function App() {
                   : "Move your cursor to share your location with other users in the app"
               }
             </p>
+            <button onClick={deleteRoomStorage}>
+              clear data for room
+            </button>
           </div>
         <div>
         <div className={`board-wrapper ${isGameOver ? 'board-wrapper--disabled' : ''}`}>
