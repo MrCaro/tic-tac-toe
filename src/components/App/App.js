@@ -25,10 +25,7 @@ function App() {
   //states from game
   const [currentPlayerX, setCurrentPlayerX] = useState(false)
   const [isGameOver, setGameOver] = useState(false)
-  // old board array
-  // const [board, setBoard] = useState(
-  //   Array.from({ length: 9 }, (x) => ({ value: null }))
-  // )
+
   const liveBoard = useList("cells")
   const playerX = useObject("playerX")
 
@@ -39,21 +36,31 @@ function App() {
   }
 
   // deletes liveblocks room data
-  const deleteRoomStorage = () => {
+  //TODO: currently present CORS error policy
+  const deleteRoomStorage = async () => {
+    const response = await axios.get('https://api.liveblocks.io/v2/*', {
+      headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_LIVEBLOCKS_SECRET_KEY}`,
+        'Access-Control-Allow-Origin': '*',
+      }
+    });
+
+
     axios.delete(`https://api.liveblocks.io/v2/rooms/${process.env.REACT_APP_LIVEBLOCKS_ROOM_ID}/storage`)
     console.log('clicked!')
   }
 
   const handleClickCell = (e, index) => {
     const currentPlayer = playerX.get("value") ? '❌' : '⭕️'
+    const arr = liveBoard.toArray()
 
-    // if(!arr[index].get("value")) {
+    if(!arr[index].get("value")) {
         liveBoard.map((cell, i) => (
           i === index ? cell.set("value", currentPlayer) : cell
         ))
       // setCurrentPlayerX(!currentPlayerX)
       playerX.set('value', !playerX.get("value"))
-    // }
+    }
   }
 
   return (
@@ -114,9 +121,6 @@ function App() {
                   : "Move your cursor to share your location with other users in the app"
               }
             </p>
-            <button onClick={deleteRoomStorage}>
-              clear data for room
-            </button>
           </div>
         <div>
         <div className={`board-wrapper ${isGameOver ? 'board-wrapper--disabled' : ''}`}>
