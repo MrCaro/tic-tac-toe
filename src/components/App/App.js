@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useOthers, useMyPresence, useList, useObject } from "../configs/liveblocks.config";
-import axios from 'axios'
 import './App.css';
 import Cursor from '../Cursor'
 import GameState from '../GameState'
@@ -37,18 +36,7 @@ function App() {
 
   // deletes liveblocks room data
   //TODO: currently present CORS error policy
-  const deleteRoomStorage = async () => {
-    const response = await axios.get('https://api.liveblocks.io/v2/*', {
-      headers: {
-        'Authorization': `Bearer ${process.env.REACT_APP_LIVEBLOCKS_SECRET_KEY}`,
-        'Access-Control-Allow-Origin': '*',
-      }
-    });
-
-
-    axios.delete(`https://api.liveblocks.io/v2/rooms/${process.env.REACT_APP_LIVEBLOCKS_ROOM_ID}/storage`)
-    console.log('clicked!')
-  }
+ 
 
   const handleClickCell = (e, index) => {
     const currentPlayer = playerX.get("value") ? '❌' : '⭕️'
@@ -61,6 +49,12 @@ function App() {
       // setCurrentPlayerX(!currentPlayerX)
       playerX.set('value', !playerX.get("value"))
     }
+  }
+
+  const resetGame = (e) => {
+    liveBoard.map((cell, i) => (
+      cell.set("value", null)
+    ))
   }
 
   return (
@@ -121,6 +115,9 @@ function App() {
                   : "Move your cursor to share your location with other users in the app"
               }
             </p>
+            <button onClick={(e) => resetGame(e)}>
+              reset
+            </button>
           </div>
         <div>
         <div className={`board-wrapper ${isGameOver ? 'board-wrapper--disabled' : ''}`}>
